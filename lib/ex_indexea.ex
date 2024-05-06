@@ -32,24 +32,24 @@ defmodule ExIndexea do
   def process_response({_status_code, _, %HTTPoison.Response{} = resp}),
     do: process_response(resp)
 
-  @spec delete(binary, Client.t(), any) :: response
-  def delete(path, client, body \\ "") do
-    _request(:delete, url(client, path), client.auth, body)
+  @spec delete(binary, Client.t(), map(), any) :: response
+  def delete(path, client, params \\ %{}, body \\ "") do
+    _request(:delete, url(client, path), params, client.auth, body)
   end
 
-  @spec post(binary, Client.t(), any) :: response
-  def post(path, client, body \\ "") do
-    _request(:post, url(client, path), client.auth, body)
+  @spec post(binary, Client.t(), map(), any) :: response
+  def post(path, client, params \\ %{}, body \\ "") do
+    _request(:post, url(client, path), params, client.auth, body)
   end
 
-  @spec patch(binary, Client.t(), any) :: response
-  def patch(path, client, body \\ "") do
-    _request(:patch, url(client, path), client.auth, body)
+  @spec patch(binary, Client.t(), map(), any) :: response
+  def patch(path, client, params \\ %{}, body \\ "") do
+    _request(:patch, url(client, path), params, client.auth, body)
   end
 
-  @spec put(binary, Client.t(), any) :: response
-  def put(path, client, body \\ "") do
-    _request(:put, url(client, path), client.auth, body)
+  @spec put(binary, Client.t(), map(), any) :: response
+  def put(path, client, params \\ %{}, body \\ "") do
+    _request(:put, url(client, path), params, client.auth, body)
   end
 
   @doc """
@@ -94,14 +94,14 @@ defmodule ExIndexea do
     end
   end
 
-  @spec _request(atom, binary, Client.auth(), any) :: response
-  def _request(method, url, auth, body \\ "") do
-    json_request(method, url, body, authorization_header(auth, @user_agent))
+  @spec _request(atom, binary, map(), Client.auth(), any) :: response
+  def _request(method, url, params, auth, body \\ "") do
+    json_request(method, url, params, body, authorization_header(auth, @user_agent))
   end
 
-  @spec json_request(atom, binary, any, keyword, keyword) :: response
-  def json_request(method, url, body \\ "", headers \\ [], options \\ []) do
-    raw_request(method, url, Jason.encode!(body), headers, options)
+  @spec json_request(atom, binary, map(), any, keyword, keyword) :: response
+  def json_request(method, url, params, body \\ "", headers \\ [], options \\ []) do
+    raw_request(method, url, params, Jason.encode!(body), headers, options)
   end
 
   defp extra_options do
@@ -121,7 +121,8 @@ defmodule ExIndexea do
     Keyword.get(options, :pagination, Application.get_env(:gitee_cli, :pagination, nil))
   end
 
-  def raw_request(method, url, body \\ "", headers \\ [], options \\ []) do
+  def raw_request(method, url, params, body \\ "", headers \\ [], options \\ []) do
+    url = add_params_to_url(url, params)
     method
     |> request!(url, body, extra_headers() ++ headers, extra_options() ++ options)
     |> process_response

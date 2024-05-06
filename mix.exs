@@ -22,6 +22,7 @@ defmodule ExIndexea.MixProject do
   defp deps do
     [
       {:jason, "~> 1.4"},
+      {:confex, "~> 3.5"},
       {:httpoison, "~> 2.2"}
     ]
   end

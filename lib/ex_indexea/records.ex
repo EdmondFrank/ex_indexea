@@ -2,7 +2,8 @@ defmodule ExIndexea.Records do
   import ExIndexea
   alias ExIndexea.Client
 
-  def list(client, app, index, opts \\ %{}) do
-    post("/records/#{app}/#{index}", client, opts)
+  @spec list(Client.t(), binary(), pos_integer(), map(), Keyword.t) :: ExIndexea.response()
+  def list(client, app, index, params \\ %{}, opts \\ %{}) do
+    post("/records/#{app}/#{index}", client, params, opts)
   end
 end
