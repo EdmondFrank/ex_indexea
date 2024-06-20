@@ -7,7 +7,12 @@ defmodule ExIndexea.MixProject do
       version: "0.1.0",
       elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      build_embedded: Mix.env() == :prod,
+      deps: deps(),
+      descpription: description(),
+      package: package(),
+      name: "ExIndexea",
+      source_url: "https://github.com/EdmondFrank/ex_indexea"
     ]
   end
 
@@ -15,6 +20,22 @@ defmodule ExIndexea.MixProject do
   def application do
     [
       extra_applications: [:logger]
+    ]
+  end
+
+  defp description() do
+    """
+    Indexea.com SDK for Elixir
+    """
+  end
+
+  defp package() do
+    [
+      maintainers: ["Edmond Frank"],
+      licenses: ["MIT"],
+      links: %{"Github" => "https://github.com/EdmondFrank/ex_indexea"},
+      files:
+        ~w(mix.exs README.md lib config .formatter.exs mix.exs README* readme* LICENSE* license* CHANGELOG* changelog*)
     ]
   end
 
