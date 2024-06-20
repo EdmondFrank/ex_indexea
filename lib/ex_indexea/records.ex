@@ -11,4 +11,9 @@ defmodule ExIndexea.Records do
   def delete_by_query(client, app, index, query, params \\ %{}, opts \\ %{}) do
     delete("/records/#{app}/#{index}/bulk", client, Map.merge(params, %{query: query}), opts)
   end
+
+  @spec push(Client.t(), binary(), pos_integer(), map(), any) :: ExIndexea.response()
+  def push(client, app, index, params \\ %{}, opts \\ %{}) do
+    put("/records/#{app}/#{index}", client, params, opts)
+  end
 end
