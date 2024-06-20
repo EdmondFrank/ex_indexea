@@ -9,7 +9,7 @@ defmodule ExIndexea.MixProject do
       start_permanent: Mix.env() == :prod,
       build_embedded: Mix.env() == :prod,
       deps: deps(),
-      descpription: description(),
+      description: description(),
       package: package(),
       name: "ExIndexea",
       source_url: "https://github.com/EdmondFrank/ex_indexea"
@@ -35,7 +35,7 @@ defmodule ExIndexea.MixProject do
       licenses: ["MIT"],
       links: %{"Github" => "https://github.com/EdmondFrank/ex_indexea"},
       files:
-        ~w(mix.exs README.md lib config .formatter.exs mix.exs README* readme* LICENSE* license* CHANGELOG* changelog*)
+        ~w(mix.exs README.md lib config .formatter.exs mix.exs README* LICENSE*)
     ]
   end
 
@@ -44,7 +44,8 @@ defmodule ExIndexea.MixProject do
     [
       {:jason, "~> 1.4"},
       {:confex, "~> 3.5"},
-      {:httpoison, "~> 2.2"}
+      {:httpoison, "~> 2.2"},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 end
